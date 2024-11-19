@@ -37,7 +37,16 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 	  return http.csrf().disable()
 			  .authorizeHttpRequests()
-			  .requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken").permitAll()
+			  .requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken",
+					  "/v3/api-docs",
+			            "/v2/api-docs", "/swagger-resources/**",
+			            "/swagger-ui/**",
+			            "/swagger-ui.html",
+			            "/v3/api-docs/**",
+			            
+			            "/api-docs/**",
+			            "api-docs"
+				).permitAll()
 			  .and()
 			  .authorizeHttpRequests().requestMatchers("/auth/user/**").authenticated()
               .and()
@@ -71,6 +80,8 @@ public class SecurityConfig {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
 		return config.getAuthenticationManager();
 	}
+	
+	
 	
 	}
 	

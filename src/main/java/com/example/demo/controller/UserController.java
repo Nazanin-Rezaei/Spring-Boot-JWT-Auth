@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.entity.AdminDetails;
 import com.example.demo.entity.AuthRequest;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.service.JwtService;
@@ -30,6 +33,25 @@ public class UserController {
 	@GetMapping("/welcome")
 	public String welcome() {
 		return "Welcome, This endpoint is not secure.";
+	}
+	
+	@GetMapping("/getuser/{id}")
+	public Optional<UserInfo> getUser(@PathVariable int id) {
+		return service.getUser(id);
+	   
+	}
+	
+	@PostMapping("/createAdmin")
+	public Optional<AdminDetails> createAdmin(@RequestBody AdminDetails adminDetails) {
+		return service.getUser(id);
+	   
+	}
+   
+	@GetMapping("/admin/getAdmin/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public Optional<AdminDetails> getAdmin(@PathVariable int id) {
+		return service.getAdmin(id);
+	   
 	}
    
 	@PostMapping("/addNewUser")

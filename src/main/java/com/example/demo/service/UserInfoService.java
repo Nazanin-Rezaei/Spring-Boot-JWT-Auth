@@ -10,8 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.AdminDetails;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.entity.UserInfoDetails;
+import com.example.demo.repo.AdminDetailRepository;
 import com.example.demo.repo.UserInfoRepository;
 
 @Service
@@ -21,6 +23,8 @@ public class UserInfoService implements UserDetailsService {
 	private UserInfoRepository repository;
 	@Autowired
 	private PasswordEncoder encoder;
+	@Autowired
+	private AdminDetailRepository adminRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,5 +39,19 @@ public class UserInfoService implements UserDetailsService {
 		userInfo.setPassword(encoder.encode(userInfo.getPassword()));
 		repository.save(userInfo);
 		return "User Added Successfully";
+	}
+	
+	public String createAdmin(AdminDetails adminDetails) {
+				adminRepository.save(adminDetails);
+		return "Admin created!";
+	}
+	public Optional<UserInfo> getUser(int id) {
+		return repository.findById(id);
+	
+	}
+	
+	public Optional<AdminDetails> getAdmin(int id) {
+		return adminRepository.findById(id);
+	
 	}
 }
